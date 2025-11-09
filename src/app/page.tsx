@@ -5,12 +5,7 @@ import { useState } from 'react';
 
 export default function Chat() {
   const [input, setInput] = useState('');
-
-  // ✅ Tell it to call your updated backend route
-  const { messages, sendMessage } = useChat({
-    api: '/api/chat'
-  });
-
+  const { messages, sendMessage } = useChat();
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
       {messages.map(message => (
@@ -19,11 +14,7 @@ export default function Chat() {
           {message.parts.map((part, i) => {
             switch (part.type) {
               case 'text':
-                return (
-                  <div key={`${message.id}-${i}`}>
-                    {part.text}
-                  </div>
-                );
+                return <div key={`${message.id}-${i}`}>{part.text}</div>;
             }
           })}
         </div>
@@ -37,8 +28,7 @@ export default function Chat() {
         }}
       >
         <input
-          className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border 
-          border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
+          className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
           value={input}
           placeholder="Say something..."
           onChange={e => setInput(e.currentTarget.value)}
